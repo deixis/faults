@@ -36,6 +36,17 @@ var (
 
 	// Unimplemented indicates the operation is not implemented or not supported
 	Unimplemented error = &UnimplementedFailure{}
+
+	// Singleton instances for Is* functions to avoid allocations
+	permissionFailureInstance     = &PermissionFailure{}
+	authenticationFailureInstance = &AuthenticationFailure{}
+	missingFailureInstance        = &MissingFailure{}
+	badRequestInstance            = &BadRequest{}
+	preconditionFailureInstance   = &PreconditionFailure{}
+	conflictFailureInstance       = &ConflictFailure{}
+	availabilityFailureInstance   = &AvailabilityFailure{}
+	quotaFailureInstance          = &QuotaFailure{}
+	unimplementedFailureInstance  = &UnimplementedFailure{}
 )
 
 // WithPermissionDenied wraps `parent` with a `PermissionFailure`
@@ -141,43 +152,43 @@ func ResourceExhausted(violations ...*QuotaViolation) error {
 }
 
 func IsPermissionDenied(err error) bool {
-	return errors.Is(err, &PermissionFailure{})
+	return errors.Is(err, permissionFailureInstance)
 }
 
 func IsUnauthenticated(err error) bool {
-	return errors.Is(err, &AuthenticationFailure{})
+	return errors.Is(err, authenticationFailureInstance)
 }
 
 func IsNotFound(err error) bool {
-	return errors.Is(err, &MissingFailure{})
+	return errors.Is(err, missingFailureInstance)
 }
 
 func IsBad(err error) bool {
-	return errors.Is(err, &BadRequest{})
+	return errors.Is(err, badRequestInstance)
 }
 
 func IsFailedPrecondition(err error) bool {
-	return errors.Is(err, &PreconditionFailure{})
+	return errors.Is(err, preconditionFailureInstance)
 }
 
 func IsAborted(err error) bool {
-	return errors.Is(err, &ConflictFailure{})
+	return errors.Is(err, conflictFailureInstance)
 }
 
 func IsUnavailable(err error) bool {
-	return errors.Is(err, &AvailabilityFailure{})
+	return errors.Is(err, availabilityFailureInstance)
 }
 
 func IsResourceExhausted(err error) bool {
-	return errors.Is(err, &QuotaFailure{})
+	return errors.Is(err, quotaFailureInstance)
 }
 
 func IsUnimplemented(err error) bool {
-	return errors.Is(err, &UnimplementedFailure{})
+	return errors.Is(err, unimplementedFailureInstance)
 }
 
 func AsPermissionDenied(err error) (*PermissionFailure, bool) {
-	e := &PermissionFailure{}
+	var e *PermissionFailure
 	if errors.As(err, &e) {
 		return e, true
 	}
@@ -185,7 +196,7 @@ func AsPermissionDenied(err error) (*PermissionFailure, bool) {
 }
 
 func AsUnauthenticated(err error) (*AuthenticationFailure, bool) {
-	e := &AuthenticationFailure{}
+	var e *AuthenticationFailure
 	if errors.As(err, &e) {
 		return e, true
 	}
@@ -193,7 +204,7 @@ func AsUnauthenticated(err error) (*AuthenticationFailure, bool) {
 }
 
 func AsNotFound(err error) (*MissingFailure, bool) {
-	e := &MissingFailure{}
+	var e *MissingFailure
 	if errors.As(err, &e) {
 		return e, true
 	}
@@ -201,7 +212,7 @@ func AsNotFound(err error) (*MissingFailure, bool) {
 }
 
 func AsBad(err error) (*BadRequest, bool) {
-	e := &BadRequest{}
+	var e *BadRequest
 	if errors.As(err, &e) {
 		return e, true
 	}
@@ -209,7 +220,7 @@ func AsBad(err error) (*BadRequest, bool) {
 }
 
 func AsFailedPrecondition(err error) (*PreconditionFailure, bool) {
-	e := &PreconditionFailure{}
+	var e *PreconditionFailure
 	if errors.As(err, &e) {
 		return e, true
 	}
@@ -217,7 +228,7 @@ func AsFailedPrecondition(err error) (*PreconditionFailure, bool) {
 }
 
 func AsAborted(err error) (*ConflictFailure, bool) {
-	e := &ConflictFailure{}
+	var e *ConflictFailure
 	if errors.As(err, &e) {
 		return e, true
 	}
@@ -225,7 +236,7 @@ func AsAborted(err error) (*ConflictFailure, bool) {
 }
 
 func AsUnavailable(err error) (*AvailabilityFailure, bool) {
-	e := &AvailabilityFailure{}
+	var e *AvailabilityFailure
 	if errors.As(err, &e) {
 		return e, true
 	}
@@ -233,7 +244,7 @@ func AsUnavailable(err error) (*AvailabilityFailure, bool) {
 }
 
 func AsResourceExhausted(err error) (*QuotaFailure, bool) {
-	e := &QuotaFailure{}
+	var e *QuotaFailure
 	if errors.As(err, &e) {
 		return e, true
 	}
@@ -241,7 +252,7 @@ func AsResourceExhausted(err error) (*QuotaFailure, bool) {
 }
 
 func AsUnimplemented(err error) (*UnimplementedFailure, bool) {
-	e := &UnimplementedFailure{}
+	var e *UnimplementedFailure
 	if errors.As(err, &e) {
 		return e, true
 	}

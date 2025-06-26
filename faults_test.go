@@ -1,6 +1,7 @@
 package faults_test
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/deixis/faults"
@@ -43,6 +44,10 @@ func TestIs(t *testing.T) {
 		},
 		{
 			Error: faults.ResourceExhausted(),
+			Is:    faults.IsResourceExhausted,
+		},
+		{
+			Error: fmt.Errorf("wrapped: %w", faults.ResourceExhausted()),
 			Is:    faults.IsResourceExhausted,
 		},
 	}
@@ -112,6 +117,13 @@ func TestAs(t *testing.T) {
 		},
 		{
 			Error: faults.ResourceExhausted(),
+			As: func(err error) bool {
+				_, ok := faults.AsResourceExhausted(err)
+				return ok
+			},
+		},
+		{
+			Error: fmt.Errorf("wrapped: %w", faults.ResourceExhausted()),
 			As: func(err error) bool {
 				_, ok := faults.AsResourceExhausted(err)
 				return ok
