@@ -1,0 +1,25 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency: release
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  release:
+    name: release
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.semantic-release.outputs.version }}
+    steps:
+      - name: Semantic release
+        id: semantic-release
+        uses: go-semantic-release/action@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
