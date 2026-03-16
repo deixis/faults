@@ -57,7 +57,7 @@ This error indicates that the request does not have valid authentication credent
 func SensitiveOperation(ctx context.Context) error {
   user, ok := user.FromContext(ctx)
   if !ok {
-    return nil, faults.Unauthenticated
+    return faults.Unauthenticated
   }
 
   // Perform operation
@@ -147,10 +147,10 @@ It must not be used for rejections caused by exhausting some resource. It must a
 func SensitiveResource(ctx context.Context) error {
   user, ok := user.FromContext(ctx)
   if !ok {
-    return nil, faults.Unauthenticated
+    return faults.Unauthenticated
   }
   if !user.IsAdmin() {
-    return nil, faults.PermissionDenied
+    return faults.PermissionDenied
   }
 
   // Perform operation
