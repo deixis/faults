@@ -89,6 +89,7 @@ func WithResourceExhausted(parent error, violations ...*QuotaViolation) error {
 	return &QuotaFailure{parent, violations}
 }
 
+// WithUnimplemented wraps `parent` with an `UnimplementedFailure`
 func WithUnimplemented(parent error) error {
 	return &UnimplementedFailure{parent}
 }
