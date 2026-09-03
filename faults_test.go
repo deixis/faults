@@ -508,6 +508,16 @@ func TestErrorMessage(t *testing.T) {
 			err:      faults.WithResourceExhausted(cause),
 			wantMsg:  "quota failure: underlying issue",
 		},
+		{
+			scenario: "WithNotFound wrapping a cause includes the cause in the message",
+			err:      faults.WithNotFound(cause),
+			wantMsg:  "resource not found: underlying issue",
+		},
+		{
+			scenario: "WithPermissionDenied wrapping a cause includes the cause in the message",
+			err:      faults.WithPermissionDenied(cause),
+			wantMsg:  "permission denied: underlying issue",
+		},
 	}
 
 	for _, tt := range tests {

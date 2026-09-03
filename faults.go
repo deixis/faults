@@ -491,7 +491,7 @@ type MissingFailure struct {
 }
 
 func (e *MissingFailure) Error() string {
-	return "resource not found"
+	return maybeWrap(e.error, "resource not found").Error()
 }
 
 func (e *MissingFailure) Is(target error) bool {
@@ -508,7 +508,7 @@ type PermissionFailure struct {
 }
 
 func (e *PermissionFailure) Error() string {
-	return "permission denied"
+	return maybeWrap(e.error, "permission denied").Error()
 }
 
 func (e *PermissionFailure) Is(target error) bool {
